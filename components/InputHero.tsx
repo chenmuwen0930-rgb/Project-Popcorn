@@ -45,7 +45,7 @@ export const InputHero: React.FC<InputHeroProps> = ({ onSubmit, isLoading }) => 
       
       {/* Decorative Floating Pixels */}
       <div className="absolute top-20 left-20 w-8 h-8 bg-yellow-400 pixel-border pixel-shadow animate-float" style={{ animationDelay: '0s' }} />
-      <div className="absolute bottom-40 right-20 w-12 h-12 bg-purple-400 pixel-border pixel-shadow animate-float" style={{ animationDelay: '1s' }} />
+      <div className="absolute bottom-40 right-20 w-12 h-12 bg-green-400 pixel-border pixel-shadow animate-float" style={{ animationDelay: '1s' }} />
       <div className="absolute top-40 right-1/4 w-6 h-6 bg-blue-400 pixel-border pixel-shadow animate-float" style={{ animationDelay: '0.5s' }} />
 
       <div className={`z-10 max-w-2xl w-full text-center space-y-8 transition-all duration-500 ${isLoading ? 'opacity-0 scale-90' : 'opacity-100 scale-100'}`}>
@@ -57,7 +57,7 @@ export const InputHero: React.FC<InputHeroProps> = ({ onSubmit, isLoading }) => 
            </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight font-pixel">
             POP YOUR IDEAS<br/>
-            <span className="text-purple-600">INTO ACTION</span>
+            <span className="text-blue-600">INTO ACTION</span>
           </h1>
           <p className="text-lg text-slate-600 max-w-lg mx-auto font-retro">
             Unbundle your thoughts. Rebundle your reality. Turn abstract ideas into pixel-perfect plans with AI + Humans + Tools.
