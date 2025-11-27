@@ -52,6 +52,19 @@ const planSchema: Schema = {
   items: taskSchema
 };
 
+// Helper to strip markdown code blocks from JSON response
+const cleanJson = (text: string): string => {
+  if (!text) return "[]";
+  let cleaned = text.trim();
+  // Remove markdown code blocks if present
+  if (cleaned.startsWith('```json')) {
+    cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+  } else if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+  }
+  return cleaned;
+};
+
 export const generateProjectPlan = async (idea: string): Promise<Task[]> => {
   try {
     const response = await ai.models.generateContent({
@@ -64,7 +77,8 @@ export const generateProjectPlan = async (idea: string): Promise<Task[]> => {
       }
     });
 
-    const tasksRaw = JSON.parse(response.text || "[]");
+    const cleanText = cleanJson(response.text || "[]");
+    const tasksRaw = JSON.parse(cleanText);
     
     // Enrich with IDs
     return tasksRaw.map((t: any, index: number) => ({
@@ -107,11 +121,20 @@ export const executeAIImageTask = async (prompt: string, config: ImageGeneration
       }
     });
 
+    let refusalText = "";
+
     // Extract image
     for (const part of response.candidates?.[0]?.content?.parts || []) {
       if (part.inlineData) {
         return `data:image/png;base64,${part.inlineData.data}`;
       }
+      if (part.text) {
+        refusalText += part.text;
+      }
+    }
+    
+    if (refusalText) {
+       throw new Error(`Model refused to generate image: ${refusalText}`);
     }
     
     throw new Error("No image data found in response");
