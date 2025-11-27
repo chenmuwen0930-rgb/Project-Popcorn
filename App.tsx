@@ -17,11 +17,9 @@ const App: React.FC = () => {
     try {
       // The InputHero component handles the visual "Unbundle" animation during isLoading state
       const tasks = await generateProjectPlan(idea);
-      
-      // Artificial delay to let the animation play out if the API is too fast
-      if (Date.now() % 2 !== 0) { 
-         await new Promise(resolve => setTimeout(resolve, 800)); 
-      }
+
+      // Minimal delay to ensure animation completes smoothly
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
       setProjectPlan({
         originalIdea: idea,
